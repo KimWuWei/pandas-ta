@@ -26,7 +26,10 @@ def stoch(high, low, close, k=None, d=None, smooth_k=None, mamode=None, offset=N
     stoch = 100 * (close - lowest_low)
     stoch /= non_zero_range(highest_high, lowest_low)
 
-    stoch_k = ma(mamode, stoch.loc[stoch.first_valid_index():,], length=smooth_k)
+    if smooth_k != 1:
+        stoch_k = ma(mamode, stoch.loc[stoch.first_valid_index():,], length=smooth_k)
+    else:
+        stoch_k = stoch
     stoch_d = ma(mamode, stoch_k.loc[stoch_k.first_valid_index():,], length=d)
 
     # Offset
